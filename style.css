@@ -1,0 +1,53 @@
+body
+{
+    background-color: black;
+    color: white;
+}
+
+.container
+{
+    position: relative;
+    width: 800px;
+    top:  50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+#play
+{
+    position: relative;
+    left: 50%;
+    height: 40px;
+    width: 120px;
+    transform: translate(-50%,-50%);
+    background-color: white;
+    color: black;
+    border: none;
+}
+
+/* The slider itself */
+.slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 25px;
+    background: white;
+    outline: none;
+  }
+  
+.slider::-webkit-slider-thumb
+{
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    background: black;
+    cursor: pointer;
+}
+  
+.slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    background: black;
+    cursor: pointer;
+  }
