@@ -1,21 +1,33 @@
 var btnPlay = document.getElementById("play");
 var freqInput = document.getElementById("freqIn");
 var freqOutput = document.getElementById("freqOut");
+var rdioSine = document.getElementById("sine");
+var rdioSq = document.getElementById("sq");
+var rdioSaw = document.getElementById("saw");
+var rdioTri = document.getElementById("tri");
 
 const CHANNELS = 1;
 const SAMPLE_RATE = 44100;
 const NUM_SECS = 2;
 
-var freqReal = 440;
-var freqAng = freqReal * 2 * Math.PI;
+//wave stuff
+var hertz = 440;                    //(f)requency = 1/T
+var period = 1/hertz;               //T = 1/f
+var omega = hertz * 2 * Math.PI;    //w = 2pi/T = 2pi * f
+
+//handlers
 var src;
 var audctx;
 var buffer;
 var myArr;
 
-//Event listeners
+//listeners
 btnPlay.addEventListener("click", play);
 freqInput.addEventListener("input", setFreq);
+rdioSine.addEventListener("input", setFreq);
+rdioSq.addEventListener("input", setFreq);
+rdioSaw.addEventListener("input", setFreq);
+rdioTri.addEventListener("input", setFreq);
 
 //Initialize
 window.onload = function ()
@@ -39,18 +51,51 @@ function initialize()
 //Creates sinusodial sample
 function generateSample(sampleNumber)
 {
-    let sampleTime = sampleNumber / SAMPLE_RATE;
-    let sampleAngle = sampleTime * freqAng;
-    return Math.sin(sampleAngle);
+    var returnVal = 0;
+
+    var sineIsChecked = rdioSine.checked;
+    var sqIsChecked = rdioSq.checked;
+    var sawIsChecked = rdioSaw.checked;
+    var triIsChecked = rdioTri.checked;
+
+    let time = sampleNumber / SAMPLE_RATE;
+    let angle = time * omega;
+
+    //SINUSOIDAL
+    if(sineIsChecked)
+    {
+        return Math.sin(angle);
+    }
+    //SQUARE
+    if(sqIsChecked)
+    {
+        return Math.sign(Math.sin(angle));
+    }
+    //SAWTOOTH
+    if(sawIsChecked)
+    {
+        returnVal = Math.sin(angle);
+        for (harms = 1; harms < 100; harms++)
+        {
+            returnVal += (Math.sin(angle * harms))/harms;
+        }
+        return returnVal;
+    }
+    //TRIANGLE
+    if(triIsChecked)
+    {
+        return Math.asin(Math.cos(angle));
+    }
 }
 
 //Update
 function setFreq()
 {
     audctx.close();
-    freqReal = getFreq();
+    hertz = getFreq();
+    period = 1/hertz;
     showValue(freqInput.value);
-    freqAng = freqReal * 2 * Math.PI;
+    omega = hertz * 2 * Math.PI;
     audctx = new AudioContext();
     buffer = audctx.createBuffer(CHANNELS, SAMPLE_RATE * 2, SAMPLE_RATE);
     myArr = buffer.getChannelData(0);
@@ -80,4 +125,3 @@ function play()
     src.connect(audctx.destination);
     src.start();
 }
-
