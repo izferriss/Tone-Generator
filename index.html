@@ -1,15 +1,30 @@
 <HTML>
     <HEAD>
-        <TITLE></TITLE>
+        <TITLE>Tone Generator</TITLE>
         <link rel="stylesheet" href="style.css">
     </HEAD>
     <BODY>
         <div class="container">
         <button id="play">Play</button>
         <br>
-        <input class="slider" type="range" id="freqIn" step="0.01" min="16.35" max="7902" value="261.63">
+        <input class="slider" type="range" id="freqIn" step="0.01" min="16.35" max="7902" value="440">
         <span id="freqOut"></span>
+        <BR>
+        <BR>
+        <div id="waves">
+            <input type="radio" id="sine" value="sine" name="waveform" checked>
+                <label for="sine">SINE</label>
+            <input type="radio" id="tri" value="tri" name="waveform">
+                <label for="tri">TRIANGLE</label>
+            <input type="radio" id="saw" value="saw" name="waveform">
+                <label for="saw">SAW</label>
+            <input type="radio" id="sq" value="sq" name="waveform">
+                <label for="sq">SQUARE</label>
         </div>
+        <BR>
+        <BR>
+        </div>
+
     </BODY>
     <script src="script.js"></script>
 </HTML>
