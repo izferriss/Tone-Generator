@@ -25,6 +25,13 @@ body
     border: none;
 }
 
+#waves
+{
+    width: 100%;
+    text-align: center;
+}
+
+/* The slider itself */
 .slider {
     -webkit-appearance: none;
     appearance: none;
