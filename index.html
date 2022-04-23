@@ -5,12 +5,13 @@
     </HEAD>
     <BODY>
         <div class="container">
-        <button id="play">Play</button>
-        <br>
-        <input class="slider" type="range" id="freqIn" step="0.01" min="16.35" max="7902" value="440">
-        <span id="freqOut"></span>
-        <BR>
-        <BR>
+        <div id="playbutton">
+            <button id="play">Play</button>
+        </div>
+        <div id="slider">
+            <input class="slider" type="range" id="freqIn" step="0.01" min="16.35" max="7902.13" value="440">
+        </div>
+        <div id="freqOut"></div>
         <div id="waves">
             <input type="radio" id="sine" value="sine" name="waveform" checked>
                 <label for="sine">SINE</label>
@@ -21,21 +22,41 @@
             <input type="radio" id="sq" value="sq" name="waveform">
                 <label for="sq">SQUARE</label>
         </div>
-        <BR>
-        <BR>
+        <div id = "octave">
+            <button class="btnOctave" id="octDec">-<br><span class="caption">(-)</span></button>
+            <span class="octDisplay" id="octDisplay"></span>
+            <button class="btnOctave" id="octInc">+<br><span class="caption">(+)</span></button>
+        </div>
         <div id="notes">
-            <button class="btnNote" id="A">A<BR><span id="caption">(1)</span></button>
-            <button class="btnNote" id="A#">A#<BR><span id="caption">(2)</span></button>
-            <button class="btnNote" id="B">B<BR><span id="caption">(3)</span></button>
-            <button class="btnNote" id="C">C<BR><span id="caption">(4)</span></button>
-            <button class="btnNote" id="C#">C#<BR><span id="caption">(5)</span></button>
-            <button class="btnNote" id="D">D<BR><span id="caption">(6)</span></button>
-            <button class="btnNote" id="D#">D#<BR><span id="caption">(7)</span></button>
-            <button class="btnNote" id="E">E<BR><span id="caption">(8)</span></button>
-            <button class="btnNote" id="F">F<BR><span id="caption">(9)</span></button>
-            <button class="btnNote" id="F#">F#<BR><span id="caption">(0)</span></button>
-            <button class="btnNote" id="G">G<BR><span id="caption">(-)</span></button>
-            <button class="btnNote" id="G#">G#<BR><span id="caption">(=)</span></button>
+            <button class="btnNote" id="C">C<BR><span class="caption"></span></button>
+            <button class="btnNote" id="C#">C#<BR><span class="caption"></span></button>
+            <button class="btnNote" id="D">D<BR><span class="caption"></span></button>
+            <button class="btnNote" id="D#">D#<BR><span class="caption"></span></button>
+            <button class="btnNote" id="E">E<BR><span class="caption"></span></button>
+            <button class="btnNote" id="F">F<BR><span class="caption"></span></button>
+            <button class="btnNote" id="F#">F#<BR><span class="caption"></span></button>
+            <button class="btnNote" id="G">G<BR><span class="caption"></span></button>
+            <button class="btnNote" id="G#">G#<BR><span class="caption"></span></button>
+            <button class="btnNote" id="A">A<BR><span class="caption"></span></button>
+            <button class="btnNote" id="A#">A#<BR><span class="caption"></span></button>
+            <button class="btnNote" id="B">B<BR><span class="caption"></span></button>
+        </div>
+        <div id="filters">
+            <select name="filters" id="ddFilters">
+                <option value="none">None</option>
+                <option value="lowpass">Low Pass</option>
+                <option value="highpass">High Pass</option>
+                <option value="bandpass">Band Pass</option>
+                <option value="lowshelf">Low Shelf</option>
+                <option value="highshelf">High Shelf</option>
+                <option value="peaking">Peaking</option>
+                <option value="notch">Notch</option>
+                <option value="allpass">All Pass</option>
+            </select>
+            <input class="freqSliders" type="range" id="filterFreq" step=".01" min="0" max="1" value= ".5">
+            <div id="filterOutFreq"></div>
+            <input class="freqSliders" type="range" id="filterQual" step=".01" min="0.0001" max="1" value=".500">
+            <div id="filterOutQual"></div>
         </div>
     </div>
 
