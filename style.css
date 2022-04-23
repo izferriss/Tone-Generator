@@ -1,3 +1,8 @@
+*
+{
+    font-family: monospace;
+}
+
 body
 {
     background-color: black;
@@ -25,6 +30,16 @@ body
     border: none;
 }
 
+.btnOctave
+{
+
+    height: 40px;
+    width: 40px;
+    background-color: white;
+    color: black;
+    border: none;
+}
+
 #play
 {
     position: relative;
@@ -37,7 +52,7 @@ body
     border: none;
 }
 
-.btnNote:hover, #play:hover
+.btnNote:hover, #play:hover, .btnOctave:hover
 {
     background-color: gray;
 }
@@ -48,12 +63,20 @@ body
     text-align: center;
 }
 
-#caption
+.caption
 {
     font-size: xx-small;
     text-align: center;
     position: relative;
     top: 10%;
+}
+
+#octave, #filters, #slider
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60px;
 }
 
 .slider
@@ -65,8 +88,18 @@ body
     background: white;
     outline: none;
 }
+
+.freqSliders
+{
+    -webkit-appearance: none;
+    appearance: none;
+    width: 75%;
+    height: 10px;
+    background: white;
+    outline: none;
+}
   
-.slider::-webkit-slider-thumb
+.slider::-webkit-slider-thumb, .freqSliders::-webkit-slider-thumb
 {
     -webkit-appearance: none;
     appearance: none;
@@ -76,14 +109,14 @@ body
     cursor: pointer;
 }
   
-.slider::-moz-range-thumb
+.slider::-moz-range-thumb, .freqSliders::-webkit-slider-thumb
 {
     width: 25px;
     height: 25px;
     background: black;
     cursor: pointer;
 }
-.slider::-webkit-slider-thumb:hover
+.slider::-webkit-slider-thumb:hover, .freqSliders::-webkit-slider-thumb:hover
 {
     background: gray;
 }
