@@ -6,7 +6,7 @@
     <BODY>
         <div class="container">
         <div id="playbutton">
-            <button id="play">Play</button>
+            <button id="play">Play<br><span class="caption">(space)</span></button>
         </div>
         <div id="slider">
             <input class="slider" type="range" id="freqIn" step="0.01" min="16.35" max="7902.13" value="440">
@@ -22,9 +22,9 @@
             <input type="radio" id="sq" value="sq" name="waveform">
                 <label for="sq">SQUARE</label>
         </div>
-        <div id = "octave">
+        <div id="octave">
             <button class="btnOctave" id="octDec">-<br><span class="caption">(-)</span></button>
-            <span class="octDisplay" id="octDisplay"></span>
+            <div class="octDisplay" id="octDisplay"></div>
             <button class="btnOctave" id="octInc">+<br><span class="caption">(+)</span></button>
         </div>
         <div id="notes">
