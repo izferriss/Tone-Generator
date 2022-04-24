@@ -91,6 +91,7 @@ var key_note_a_sharp = 'u';
 var key_note_b = 'j';
 var key_ctrl_oct_inc = '+';
 var key_ctrl_oct_dec = '-';
+var key_ctrl_space = ' ';
 
 
 const CHANNELS = 2;
@@ -124,7 +125,7 @@ var src;
 var audctx = new AudioContext();
 var buffer;
 var myArr;
-var active = [false, false, false, false, false , false, false, false , false, false, false, false, false, false];
+var keyIsActive = [false, false, false, false, false , false, false, false , false, false, false, false, false, false, false];
 var octave = 4;
 var filter_low_pass_freq = 0;
 var filter_low_pass_Q = 0;
@@ -189,138 +190,161 @@ document.addEventListener('keydown', event =>
 {
     if(event.key === key_note_c)
     {
-        if(!active[0])
+        if(!keyIsActive[0])
         {
-            active[0] = true;
+            keyIsActive[0] = true;
             freqInput.value = btnC.frequency;
+            btnC.classList.add("active");
             setFreq();
             play(true);
         }
     }
     if(event.key === key_note_c_sharp)
     {
-        if(!active[1])
+        if(!keyIsActive[1])
         {
-            active[1] = true;
+            keyIsActive[1] = true;
             freqInput.value = btnCSharp.frequency;
+            btnCSharp.classList.add("active");
             setFreq();
             play(true);
         }
     }
     if(event.key === key_note_d)
     {
-        if(!active[2])
+        if(!keyIsActive[2])
         {
-            active[2] = true;
+            keyIsActive[2] = true;
             freqInput.value = btnD.frequency;
+            btnD.classList.add("active");
             setFreq();
             play(true);
         }
     }
     if(event.key === key_note_d_sharp)
     {
-        if(!active[3])
+        if(!keyIsActive[3])
         {
-            active[3] = true;
+            keyIsActive[3] = true;
             freqInput.value = btnDSharp.frequency;
+            btnDSharp.classList.add("active");
             setFreq();
             play(true);
         }
     }
     if(event.key === key_note_e)
     {
-        if(!active[4])
+        if(!keyIsActive[4])
         {
-            active[4] = true;
+            keyIsActive[4] = true;
             freqInput.value = btnE.frequency;
+            btnE.classList.add("active");
             setFreq();
             play(true);
         }
     }
     if(event.key === key_note_f)
     {
-        if(!active[5])
+        if(!keyIsActive[5])
         {
-            active[5] = true;
+            keyIsActive[5] = true;
             freqInput.value = btnF.frequency;
+            btnF.classList.add("active");
             setFreq();
             play(true);
         }
     }
     if(event.key === key_note_f_sharp)
     {
-        if(!active[6])
+        if(!keyIsActive[6])
         {
-            active[6] = true;
+            keyIsActive[6] = true;
             freqInput.value = btnFSharp.frequency;
+            btnFSharp.classList.add("active");
             setFreq();
             play(true);
         }
     }
     if(event.key === key_note_g)
     {
-        if(!active[7])
+        if(!keyIsActive[7])
         {
-            active[7] = true;
+            keyIsActive[7] = true;
             freqInput.value = btnG.frequency;
+            btnG.classList.add("active");
             setFreq();
             play(true);
         }
     }
     if(event.key === key_note_g_sharp)
     {
-        if(!active[8])
+        if(!keyIsActive[8])
         {
-            active[8] = true;
+            keyIsActive[8] = true;
             freqInput.value = btnGSharp.frequency;
+            btnGSharp.classList.add("active");
             setFreq();
             play(true);
         }
     }
     if(event.key === key_note_a)
     {
-        if(!active[9])
+        if(!keyIsActive[9])
         {
-            active[9] = true;
+            keyIsActive[9] = true;
             freqInput.value = btnA.frequency;
+            btnA.classList.add("active");
             setFreq();
             play(true);
         }
     }
     if(event.key === key_note_a_sharp)
     {
-        if(!active[10])
+        if(!keyIsActive[10])
         {
-            active[10] = true;
+            keyIsActive[10] = true;
             freqInput.value = btnASharp.frequency;
+            btnASharp.classList.add("active");
             setFreq();
             play(true);
         }
     }
     if(event.key === key_note_b)
     {
-        if(!active[11])
+        if(!keyIsActive[11])
         {
-            active[11] = true;
+            keyIsActive[11] = true;
             freqInput.value = btnB.frequency;
+            btnB.classList.add("active");
             setFreq();
             play(true);
         }
     }
     if(event.key === key_ctrl_oct_dec)
     {
-        if(!active[12])
+        if(!keyIsActive[12])
         {
-            active[12] = true;
+            keyIsActive[12] = true;
+            btnOctDec.classList.add("active");
             btnOctDec.click();
         }
     }
     if(event.key === key_ctrl_oct_inc)
     {
-        if(!active[13])
+        if(!keyIsActive[13])
         {
-            active[13] = true;
+            keyIsActive[13] = true;
+            btnOctInc.classList.add("active");
             btnOctInc.click();
+        }
+    }
+    if(event.key === key_ctrl_space)
+    {
+        if(!keyIsActive[14])
+        {
+            keyIsActive[14] = true;
+            btnPlay.classList.add("active");
+            play(true);
         }
     }
 });
@@ -330,112 +354,134 @@ document.addEventListener('keyup', event =>
 {
     if(event.key === key_note_c)
     {
-        if(active[0])
+        if(keyIsActive[0])
         {
             src.disconnect();
-            active[0] = false;
+            btnC.classList.remove("active");
+            keyIsActive[0] = false;
         }
     }
     if(event.key === key_note_c_sharp)
     {
-        if(active[1])
+        if(keyIsActive[1])
         {
             src.disconnect();
-            active[1] = false;
+            btnCSharp.classList.remove("active");
+            keyIsActive[1] = false;
         }
     }
     if(event.key === key_note_d)
     {
-        if(active[2])
+        if(keyIsActive[2])
         {
             src.stop();
-            active[2] = false;
+            btnD.classList.remove("active");
+            keyIsActive[2] = false;
         }
     }
     if(event.key === key_note_d_sharp)
     {
-        if(active[3])
+        if(keyIsActive[3])
         {
             src.stop();
-            active[3] = false;
+            btnDSharp.classList.remove("active");
+            keyIsActive[3] = false;
         }
     }
     if(event.key === key_note_e)
     {
-        if(active[4])
+        if(keyIsActive[4])
         {
             src.stop();
-            active[4] = false;
+            btnE.classList.remove("active");
+            keyIsActive[4] = false;
         }
     }
     if(event.key === key_note_f)
     {
-        if(active[5])
+        if(keyIsActive[5])
         {
             src.stop();
-            active[5] = false;
+            btnF.classList.remove("active");
+            keyIsActive[5] = false;
         }
     }
     if(event.key === key_note_f_sharp)
     {
-        if(active[6])
+        if(keyIsActive[6])
         {
             src.stop();
-            active[6] = false;
+            btnFSharp.classList.remove("active");
+            keyIsActive[6] = false;
         }
     }
     if(event.key === key_note_g)
     {
-        if(active[7])
+        if(keyIsActive[7])
         {
             src.stop();
-            active[7] = false;
+            btnG.classList.remove("active");
+            keyIsActive[7] = false;
         }
     }
     if(event.key === key_note_g_sharp)
     {
-        if(active[8])
+        if(keyIsActive[8])
         {
             src.stop();
-            active[8] = false;
+            btnGSharp.classList.remove("active");
+            keyIsActive[8] = false;
         }
     }
     if(event.key === key_note_a)
     {
-        if(active[9])
+        if(keyIsActive[9])
         {
             src.stop();
-            active[9] = false;
+            btnA.classList.remove("active");
+            keyIsActive[9] = false;
         }
     }
     if(event.key === key_note_a_sharp)
     {
-        if(active[10])
+        if(keyIsActive[10])
         {
             src.stop();
-            active[10] = false;
+            btnASharp.classList.remove("active");
+            keyIsActive[10] = false;
         }
     }
     if(event.key === key_note_b)
     {
-        if(active[11])
+        if(keyIsActive[11])
         {
             src.stop();
-            active[11] = false;
+            btnB.classList.remove("active");
+            keyIsActive[11] = false;
         }
     }
     if(event.key === key_ctrl_oct_dec)
     {
-        if(active[12])
+        if(keyIsActive[12])
         {
-            active[12] = false;
+            btnOctDec.classList.remove("active");
+            keyIsActive[12] = false;
         }
     }
     if(event.key === key_ctrl_oct_inc)
     {
-        if(active[13])
+        if(keyIsActive[13])
         {
-            active[13] = false;
+            btnOctInc.classList.remove("active");
+            keyIsActive[13] = false;
+        }
+    }
+    if(event.key === key_ctrl_space)
+    {
+        if(keyIsActive[14])
+        {
+            btnPlay.classList.remove("active");
+            keyIsActive[14] = false;
         }
     }
 });
@@ -525,7 +571,7 @@ function setHz(hz, loopVal)
 //Updates innerHTML of slider
 function showValue(newVal)
 {
-    freqOutput.innerHTML = newVal;
+    freqOutput.innerHTML = newVal + " Hz";
 }
 
 function nyquist()
@@ -635,7 +681,26 @@ function play(isLooped)
 //Updates all displays having to do with the octave
 function displayOctave()
 {
-    document.getElementById("octDisplay").innerHTML = "&nbsp;" + octave + "&nbsp;";
+    var superType;
+
+    if(octave == 3)
+    {
+        superType = "rd Octave";
+    }
+    else if(octave == 2)
+    {
+        superType = "nd Octave";
+    }
+    else if(octave == 1)
+    {
+        superType = "st Octave";
+    }
+    else
+    {
+        superType = "th Octave";
+    }
+
+    document.getElementById("octDisplay").innerHTML = octave + superType;
     btnC.innerHTML = "C" + octave + "<BR><span class='caption'>(" + key_note_c +")</span>";
     btnCSharp.innerHTML = "C#" + octave + "<BR><span class='caption'>(" + key_note_c_sharp +")</span>";
     btnD.innerHTML = "D" + octave + "<BR><span class='caption'>(" + key_note_d +")</span>";
