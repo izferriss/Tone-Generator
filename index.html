@@ -41,22 +41,237 @@
             <button class="btnNote" id="A#">A#<BR><span class="caption"></span></button>
             <button class="btnNote" id="B">B<BR><span class="caption"></span></button>
         </div>
-        <div id="filters">
-            <select name="filters" id="ddFilters">
-                <option value="none">None</option>
-                <option value="lowpass">Low Pass</option>
-                <option value="highpass">High Pass</option>
-                <option value="bandpass">Band Pass</option>
-                <option value="lowshelf">Low Shelf</option>
-                <option value="highshelf">High Shelf</option>
-                <option value="peaking">Peaking</option>
-                <option value="notch">Notch</option>
-                <option value="allpass">All Pass</option>
-            </select>
-            <input class="freqSliders" type="range" id="filterFreq" step=".01" min="0" max="1" value= ".5">
-            <div id="filterOutFreq"></div>
-            <input class="freqSliders" type="range" id="filterQual" step=".01" min="0.0001" max="1" value=".500">
-            <div id="filterOutQual"></div>
+        <div id="toggleGroup">
+            <table id = "filterTable">
+                <tr>
+                    <th>
+                        I/O
+                    </th>
+                    <th>
+                        Filter
+                    </th>
+                    <th>
+                        Frequency
+                    </th>
+                    <th>
+                        Hz
+                    </th>
+                    <th>
+                        Q
+                    </th>
+                    <th>
+                        &nbsp;
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        <label class="switch">
+                            <input type="checkbox" class="filterboxes" onchange="cbChange(this)" id="check_none" checked>
+                            <span class="toggle"></span>
+                        </label>
+                    </td>
+                    <td>
+                        None
+                    </td>
+                    <td>
+                        &nbsp;
+                    </td>
+                    <td>
+                        &nbsp;
+                    </td>
+                    <td>
+                        &nbsp;
+                    </td>
+                    <td>
+                        &nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label class="switch">
+                            <input type="checkbox" class="filterboxes" onchange="cbChange(this)" id="check_low_pass">
+                            <span class="toggle"></span>
+                        </label>
+                    </td>
+                    <td>
+                        Low Pass
+                    </td>
+                    <td>
+                        <input class="slider_filters" type="range" id="slider_low_pass_freq" step="1" min="20" max="20000" value= "550">
+                    </td>
+                    <td>
+                        <span id="low_pass_freq_out"></span>
+                    </td>
+                    <td>
+                        <input class="slider_filters" type="range" id="slider_low_pass_Q" step="1" min="0" max="1000" value= "30">
+                    </td>
+                    <td>
+                        <span id="low_pass_Q_out"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label class="switch">
+                            <input type="checkbox" class="filterboxes" onchange="cbChange(this)" id="check_high_pass">
+                            <span class="toggle"></span>
+                        </label>
+                    </td>
+                    <td>
+                        High Pass
+                    </td>
+                    <td>
+                        <input class="slider_filters" type="range" id="slider_high_pass_freq" step="1" min="20" max="20000" value= "550">
+                    </td>
+                    <td>
+                        <span id="high_pass_freq_out"></span>
+                    </td>
+                    <td>
+                        <input class="slider_filters" type="range" id="slider_high_pass_Q" step="1" min="0" max="1000" value= "30">
+                    </td>
+                    <td>
+                        <span id="high_pass_Q_out"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label class="switch">
+                            <input type="checkbox" class="filterboxes" onchange="cbChange(this)" id="check_band_pass">
+                            <span class="toggle"></span>
+                        </label>
+                    </td>
+                    <td>
+                        Band Pass
+                    </td>
+                    <td>
+                        <input class="slider_filters" type="range" id="slider_band_pass_freq" step="1" min="20" max="20000" value= "550">
+                    </td>
+                    <td>
+                        <span id="band_pass_freq_out"></span>
+                    </td>
+                    <td>
+                        <input class="slider_filters" type="range" id="slider_band_pass_Q" step="1" min="0" max="1000" value= "30">
+                    </td>
+                    <td>
+                        <span id="band_pass_Q_out"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label class="switch">
+                            <input type="checkbox" class="filterboxes" onchange="cbChange(this)" id="check_low_shelf">
+                            <span class="toggle"></span>
+                        </label>
+                    </td>
+                    <td>
+                        Low Shelf
+                    </td>
+                    <td>
+                        <input class="slider_filters" type="range" id="slider_low_shelf_freq" step="1" min="20" max="20000" value= "550">
+                    </td>
+                    <td>
+                        <span id="low_shelf_freq_out"></span>
+                    </td>
+                    <td>
+                        <input class="slider_filters" type="range" id="slider_low_shelf_Q" step="1" min="0" max="1000" value= "30">
+                    </td>
+                    <td>
+                        <span id="low_shelf_Q_out"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label class="switch">
+                            <input type="checkbox" class="filterboxes" onchange="cbChange(this)" id="check_high_shelf">
+                            <span class="toggle"></span>
+                        </label>
+                    </td>
+                    <td>
+                        High Shelf
+                    </td>
+                    <td>
+                        <input class="slider_filters" type="range" id="slider_high_shelf_freq" step="1" min="20" max="20000" value= "550">
+                    </td>
+                    <td>
+                        <span id="high_shelf_freq_out"></span>
+                    </td>
+                    <td>
+                        <input class="slider_filters" type="range" id="slider_high_shelf_Q" step="1" min="0" max="1000" value= "30">
+                    </td>
+                    <td>
+                        <span id="high_shelf_Q_out"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label class="switch">
+                            <input type="checkbox" class="filterboxes" onchange="cbChange(this)" id="check_peaking">
+                            <span class="toggle"></span>
+                        </label>
+                    </td>
+                    <td>
+                        Peaking
+                    </td>
+                    <td>
+                        <input class="slider_filters" type="range" id="slider_peaking_freq" step="1" min="20" max="20000" value= "550">
+                    </td>
+                    <td>
+                        <span id="peaking_freq_out"></span>
+                    </td>
+                    <td>
+                        <input class="slider_filters" type="range" id="slider_peaking_Q" step="1" min="0" max="1000" value= "30">
+                    </td>
+                    <td>
+                        <span id="peaking_Q_out"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label class="switch">
+                            <input type="checkbox" class="filterboxes" onchange="cbChange(this)" id="check_notch">
+                            <span class="toggle"></span>
+                        </label>
+                    </td>
+                    <td>
+                        Notch
+                    </td>
+                    <td>
+                        <input class="slider_filters" type="range" id="slider_notch_freq" step="1" min="20" max="20000" value= "550">
+                    </td>
+                    <td>
+                        <span id="notch_freq_out"></span>
+                    </td>
+                    <td>
+                        <input class="slider_filters" type="range" id="slider_notch_Q" step="1" min="0" max="1000" value= "30">
+                    </td>
+                    <td>
+                        <span id="notch_Q_out"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label class="switch">
+                            <input type="checkbox" class="filterboxes" onchange="cbChange(this)" id="check_all_pass">
+                            <span class="toggle"></span>
+                        </label>
+                    </td>
+                    <td>
+                        All Pass
+                    </td>
+                    <td>
+                        <input class="slider_filters" type="range" id="slider_all_pass_freq" step="1" min="20" max="20000" value= "550">
+                    </td>
+                    <td>
+                        <span id="all_pass_freq_out"></span>
+                    </td>
+                    <td>
+                        <input class="slider_filters" type="range" id="slider_all_pass_Q" step="1" min="0" max="1000" value= "30">
+                    </td>
+                    <td>
+                        <span id="all_pass_Q_out"></span>
+                    </td>
+                </tr>
+
+            </table>
         </div>
     </div>
 
