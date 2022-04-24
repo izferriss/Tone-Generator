@@ -1,5 +1,7 @@
+//Play button control
 var btnPlay = document.getElementById("play");
 
+//Note buttons
 var btnA = document.getElementById("A");
 var btnASharp = document.getElementById("A#");
 var btnB = document.getElementById("B");
@@ -15,13 +17,66 @@ var btnGSharp = document.getElementById("G#");
 var btnOctDec = document.getElementById("octDec");
 var btnOctInc = document.getElementById("octInc");
 
+//Frequency slider controls
 var freqInput = document.getElementById("freqIn");
 var freqOutput = document.getElementById("freqOut");
+
+//Waveform controls
 var rdioSine = document.getElementById("sine");
 var rdioSq = document.getElementById("sq");
 var rdioSaw = document.getElementById("saw");
 var rdioTri = document.getElementById("tri");
 
+//Filter Controls
+var checkbox_low_pass = document.getElementById("check_low_pass");
+var slider_low_pass_freq = document.getElementById("slider_low_pass_freq");
+var output_low_pass_freq = document.getElementById("low_pass_freq_out");
+var slider_low_pass_Q = document.getElementById("slider_low_pass_Q");
+var output_low_pass_Q = document.getElementById("low_pass_Q_out");
+
+var checkbox_high_pass = document.getElementById("check_high_pass");
+var slider_high_pass_freq = document.getElementById("slider_high_pass_freq");
+var output_high_pass_freq = document.getElementById("high_pass_freq_out");
+var slider_high_pass_Q = document.getElementById("slider_high_pass_Q");
+var output_high_pass_Q = document.getElementById("high_pass_Q_out");
+
+var checkbox_band_pass = document.getElementById("check_band_pass");
+var slider_band_pass_freq = document.getElementById("slider_band_pass_freq");
+var output_band_pass_freq = document.getElementById("band_pass_freq_out");
+var slider_band_pass_Q = document.getElementById("slider_band_pass_Q");
+var output_band_pass_Q = document.getElementById("band_pass_Q_out");
+
+var checkbox_low_shelf = document.getElementById("check_low_shelf");
+var slider_low_shelf_freq = document.getElementById("slider_low_shelf_freq");
+var output_low_shelf_freq = document.getElementById("low_shelf_freq_out");
+var slider_low_shelf_Q = document.getElementById("slider_low_shelf_Q");
+var output_low_shelf_Q = document.getElementById("low_shelf_Q_out");
+
+var checkbox_high_shelf = document.getElementById("check_high_shelf");
+var slider_high_shelf_freq = document.getElementById("slider_high_shelf_freq");
+var output_high_shelf_freq = document.getElementById("high_shelf_freq_out");
+var slider_high_shelf_Q = document.getElementById("slider_high_shelf_Q");
+var output_high_shelf_Q = document.getElementById("high_shelf_Q_out");
+
+var checkbox_peaking = document.getElementById("check_peaking");
+var slider_peaking_freq = document.getElementById("slider_peaking_freq");
+var output_peaking_freq = document.getElementById("peaking_freq_out");
+var slider_peaking_Q = document.getElementById("slider_peaking_Q");
+var output_peaking_Q = document.getElementById("peaking_Q_out");
+
+var checkbox_notch = document.getElementById("check_notch");
+var slider_notch_freq = document.getElementById("slider_notch_freq");
+var output_notch_freq = document.getElementById("notch_freq_out");
+var slider_notch_Q = document.getElementById("slider_notch_Q");
+var output_notch_Q = document.getElementById("notch_Q_out");
+
+var checkbox_all_pass = document.getElementById("check_all_pass");
+var slider_all_pass_freq = document.getElementById("slider_all_pass_freq");
+var output_all_pass_freq = document.getElementById("all_pass_freq_out");
+var slider_all_pass_Q = document.getElementById("slider_all_pass_Q");
+var output_all_pass_Q = document.getElementById("all_pass_Q_out");
+
+//Keyboard symbols
 var key_note_c = 'a';
 var key_note_c_sharp = 'w';
 var key_note_d = 's';
@@ -63,16 +118,30 @@ var hertz = 440;                    //(f)requency = 1/T
 var period = 1/hertz;               //T = 1/f
 var omega = hertz * 2 * Math.PI;    //w = 2pi/T = 2pi * f
 var secs = 2;                       //duration of wave
-var filterFreqValue = document.getElementById("filterFreq");
-var filterQualValue = document.getElementById("filterQual");
 
-//handlers
+//variables
 var src;
 var audctx = new AudioContext();
 var buffer;
 var myArr;
-var active = [false, false, false, false, false , false, false, false , false, false, false, false];
+var active = [false, false, false, false, false , false, false, false , false, false, false, false, false, false];
 var octave = 4;
+var filter_low_pass_freq = 0;
+var filter_low_pass_Q = 0;
+var filter_high_pass_freq = 0;
+var filter_high_pass_Q = 0;
+var filter_band_pass_freq = 0;
+var filter_band_pass_Q = 0;
+var filter_low_shelf_freq = 0;
+var filter_low_shelf_Q = 0;
+var filter_high_shelf_freq = 0;
+var filter_high_shelf_Q = 0;
+var filter_peaking_freq = 0;
+var filter_peaking_Q = 0;
+var filter_notch_freq = 0;
+var filter_notch_Q = 0;
+var filter_all_pass_freq = 0;
+var filter_all_pass_Q = 0;
 
 //listeners
 btnPlay.addEventListener("click", play);
@@ -81,8 +150,6 @@ rdioSine.addEventListener("input", setFreq);
 rdioSq.addEventListener("input", setFreq);
 rdioSaw.addEventListener("input", setFreq);
 rdioTri.addEventListener("input", setFreq);
-filterFreqValue.addEventListener("input", setFilterFreqValue);
-filterQualValue.addEventListener("input", setFilterQualValue);
 
 btnA.addEventListener("click", setHz);
 btnASharp.addEventListener("click", setHz);
@@ -98,6 +165,23 @@ btnG.addEventListener("click", setHz);
 btnGSharp.addEventListener("click", setHz);
 btnOctDec.addEventListener("click", decOctave);
 btnOctInc.addEventListener("click", incOctave);
+
+slider_low_pass_freq.addEventListener("input", setLowPassFreq);
+slider_low_pass_Q.addEventListener("input", setLowPassQ);
+slider_high_pass_freq.addEventListener("input", setHighPassFreq);
+slider_high_pass_Q.addEventListener("input", setHighPassQ);
+slider_band_pass_freq.addEventListener("input", setBandPassFreq);
+slider_band_pass_Q.addEventListener("input", setBandPassQ);
+slider_low_shelf_freq.addEventListener("input", setLowShelfFreq);
+slider_low_shelf_Q.addEventListener("input", setLowShelfQ);
+slider_high_shelf_freq.addEventListener("input", setHighShelfFreq);
+slider_high_shelf_Q.addEventListener("input", setHighShelfQ);
+slider_peaking_freq.addEventListener("input", setPeakingFreq);
+slider_peaking_Q.addEventListener("input", setPeakingQ);
+slider_notch_freq.addEventListener("input", setNotchFreq);
+slider_notch_Q.addEventListener("input", setNotchQ);
+slider_all_pass_freq.addEventListener("input", setAllPassFreq);
+slider_all_pass_Q.addEventListener("input", setAllPassQ);
 
 
 //key down
@@ -225,11 +309,19 @@ document.addEventListener('keydown', event =>
     }
     if(event.key === key_ctrl_oct_dec)
     {
-        btnOctDec.click();
+        if(!active[12])
+        {
+            active[12] = true;
+            btnOctDec.click();
+        }
     }
     if(event.key === key_ctrl_oct_inc)
     {
-        btnOctInc.click();
+        if(!active[13])
+        {
+            active[13] = true;
+            btnOctInc.click();
+        }
     }
 });
 
@@ -334,11 +426,17 @@ document.addEventListener('keyup', event =>
     }
     if(event.key === key_ctrl_oct_dec)
     {
-        btnOctDec.click();
+        if(active[12])
+        {
+            active[12] = false;
+        }
     }
     if(event.key === key_ctrl_oct_inc)
     {
-        btnOctInc.click();
+        if(active[13])
+        {
+            active[13] = false;
+        }
     }
 });
 
@@ -355,6 +453,7 @@ function initialize()
     showValue(freqInput.value);
     displayOctave();
     createBuffer();
+    initFilterVals();
 }
 
 //Creates sinusodial sample
@@ -429,70 +528,102 @@ function showValue(newVal)
     freqOutput.innerHTML = newVal;
 }
 
+function nyquist()
+{
+    return audctx.sampleRate/2;
+}
+
+function normalizedCutoffoHz(normalizedFreq, numOctaves)
+{
+    var f = new Number(normalizedFreq);
+    f = nyquist() * Math.pow(2.0, numOctaves * (f - 1.0));
+    return f;
+}
+
 //Plays the sample
 function play(isLooped)
 {
     src = audctx.createBufferSource();
-    var qMultiplier = 30;
     var gainNode = audctx.createGain();
+    var Q, freq;
+
     var filterNode = audctx.createBiquadFilter();
-    var minFilterFreq = MIN_FREQ;
-    var maxFilterFreq = audctx.sampleRate /2;
-    var numberOfOctaves = Math.log(maxFilterFreq / minFilterFreq) / Math.LN2;
-    var multiplier = Math.pow(2, numberOfOctaves * (getFilterFreqValue() - 1.0));
 
-
-    //Creates a filter based on drop down selection
-    switch (document.getElementById("ddFilters").value)
+    if(checkbox_low_pass.checked)
     {
-        case "none":
-            break;
-        case "lowpass":
-            filterNode.type = 'lowpass';
-            filterNode.frequency.value = multiplier * maxFilterFreq;
-            filterNode.Q.value = filterQualValue.value * qMultiplier;
-            break;
-        case "highpass":
-            filterNode.type = 'highpass';
-            filterNode.frequency.value = multiplier * maxFilterFreq;
-            filterNode.Q.value = filterQualValue.value * qMultiplier;
-            break;
-        case "bandpass":
-            filterNode.type = 'bandpass';
-            filterNode.frequency.value = multiplier * maxFilterFreq;
-            filterNode.Q.value = filterQualValue.value * qMultiplier;
-            break;
-        case "lowshelf":
-            filterNode.type = 'lowshelf';
-            filterNode.frequency.value = multiplier * maxFilterFreq;
-            filterNode.Q.value = filterQualValue.value * qMultiplier;
-            break;
-        case "highshelf":
-            filterNode.type = 'highshelf';
-            filterNode.frequency.value = multiplier * maxFilterFreq;
-            filterNode.Q.value = filterQualValue.value * qMultiplier;
-            break;
-        case "peaking":
-            filterNode.type = 'peaking';
-            filterNode.frequency.value = multiplier * maxFilterFreq;
-            filterNode.Q.value = filterQualValue.value * qMultiplier;
-            break;
-        case "notch":
-            filterNode.type = 'notch';
-            filterNode.frequency.value = multiplier * maxFilterFreq;
-            filterNode.Q.value = filterQualValue.value * qMultiplier;
-            break;
-        case "allpass":
-            filterNode.type = 'allpass';
-            filterNode.frequency.value = multiplier * maxFilterFreq;
-            filterNode.Q.value = filterQualValue.value * qMultiplier;
-            break;
-        default:
-            break;
+        freq = filter_low_pass_freq;
+        Q = filter_low_pass_Q;
+        filterNode.type = "lowpass";
+        filterNode.frequency.value = freq;
+        filterNode.Q.value = Q;
+    }
+    if(checkbox_high_pass.checked)
+    {
+        freq = filter_high_pass_freq;
+        Q = filter_high_pass_Q;
+        filterNode.type = "highpass";
+        filterNode.frequency.value = freq;
+        filterNode.Q.value = Q;
+    }
+    if(checkbox_band_pass.checked)
+    {
+        freq = filter_band_pass_freq;
+        Q = filter_band_pass_Q;
+        filterNode.type = "bandpass";
+        filterNode.frequency.value = freq;
+        filterNode.Q.value = Q;
+    }
+    if(checkbox_low_shelf.checked)
+    {
+        freq = filter_low_shelf_freq;
+        Q = filter_low_shelf_Q;
+        filterNode.type = "lowshelf";
+        filterNode.frequency.value = freq;
+        filterNode.Q.value = Q;
+    }
+    if(checkbox_high_shelf.checked)
+    {
+        freq = filter_high_shelf_freq;
+        Q = filter_high_shelf_Q;
+        filterNode.type = "highshelf";
+        filterNode.frequency.value = freq;
+        filterNode.Q.value = Q;
+    }
+    if(checkbox_peaking.checked)
+    {
+        freq = filter_peaking_freq;
+        Q = filter_peaking_Q;
+        filterNode.type = "peaking";
+        filterNode.frequency.value = freq;
+        filterNode.Q.value = Q;
+    }
+    if(checkbox_notch.checked)
+    {
+        freq = filter_notch_freq;
+        Q = filter_notch_Q;
+        filterNode.type = "notch";
+        filterNode.frequency.value = freq;
+        filterNode.Q.value = Q;
+    }
+    if(checkbox_all_pass.checked)
+    {
+        freq = filter_all_pass_freq;
+        Q = filter_all_pass_Q;
+        filterNode.type = "allpass";
+        filterNode.frequency.value = freq;
+        filterNode.Q.value = Q;
+    }
+    if(!checkbox_low_pass.checked && !checkbox_high_pass.checked
+        && !checkbox_band_pass.checked && !checkbox_low_shelf.checked
+        && !checkbox_high_pass.checked && !checkbox_peaking.checked
+        && !checkbox_notch.checked && !checkbox_all_pass.checked)
+    {
+        //No filters
     }
 
     var currTime = audctx.currentTime;
-    gainNode.gain.linearRampToValueAtTime(0, currTime  + NOTE_DURATION);
+    gainNode.gain.value = 1;
+    gainNode.gain.linearRampToValueAtTime(0.00001, currTime  + NOTE_DURATION);
     src.buffer = buffer;
     src.loop = isLooped;
     src.connect(filterNode);
@@ -576,22 +707,57 @@ function createBuffer()
     }
 }
 
-function setFilterFreqValue()
+function initFilterVals()
 {
-    filterFreqValue.value = getFilterFreqValue();
+    setLowPassFreq();
+    setLowPassQ();
+    setHighPassFreq();
+    setHighPassQ();
+    setBandPassFreq();
+    setBandPassQ();
+    setLowShelfFreq();
+    setLowShelfQ();
+    setHighShelfFreq();
+    setHighShelfQ();
+    setPeakingFreq();
+    setPeakingQ();
+    setNotchFreq();
+    setNotchQ();
+    setAllPassFreq();
+    setAllPassQ();
 }
 
-function setFilterQualValue()
+function cbChange(checkbox)
 {
-    filterQualValue.value = getFilterQualValue();
+    var checkboxes = document.getElementsByClassName("filterboxes");
+    for (var i = 0; i < checkboxes.length; i++)
+    {
+        checkboxes[i].checked = false;
+    }
+
+    if(checkbox.checked)
+    {
+        checkbox.checked = false;
+    }
+    else
+    {
+        checkbox.checked = true;
+    }
 }
 
-function getFilterFreqValue()
-{
-    return (filterFreqValue.value);
-}
-
-function getFilterQualValue()
-{
-    return (filterQualValue.value);
-}
+function setLowPassFreq(){filter_low_pass_freq = slider_low_pass_freq.value; output_low_pass_freq.innerHTML = slider_low_pass_freq.value;}
+function setLowPassQ(){filter_low_pass_Q = slider_low_pass_Q.value; output_low_pass_Q.innerHTML = slider_low_pass_Q.value;}
+function setHighPassFreq(){filter_high_pass_freq = slider_high_pass_freq.value; output_high_pass_freq.innerHTML = slider_high_pass_freq.value;}
+function setHighPassQ(){filter_high_pass_Q = slider_high_pass_Q.value; output_high_pass_Q.innerHTML = slider_high_pass_Q.value;}
+function setBandPassFreq(){filter_band_pass_freq = slider_band_pass_freq.value; output_band_pass_freq.innerHTML = slider_band_pass_freq.value;}
+function setBandPassQ(){filter_band_pass_Q = slider_band_pass_Q.value; output_band_pass_Q.innerHTML = slider_band_pass_Q.value;}
+function setLowShelfFreq(){filter_low_shelf_freq = slider_low_shelf_freq.value; output_low_shelf_freq.innerHTML = slider_low_shelf_freq.value;}
+function setLowShelfQ(){filter_low_shelf_Q = slider_low_shelf_Q.value; output_low_shelf_Q.innerHTML = slider_low_shelf_Q.value;}
+function setHighShelfFreq(){filter_high_shelf_freq = slider_high_shelf_freq.value; output_high_shelf_freq.innerHTML = slider_high_shelf_freq.value;}
+function setHighShelfQ(){filter_high_shelf_Q = slider_high_shelf_Q.value; output_high_shelf_Q.innerHTML = slider_high_shelf_Q.value;}
+function setPeakingFreq(){filter_peaking_freq = slider_peaking_freq.value; output_peaking_freq.innerHTML = slider_peaking_freq.value;}
+function setPeakingQ(){filter_peaking_Q = slider_peaking_Q.value; output_peaking_Q.innerHTML = slider_peaking_Q.value;}
+function setNotchFreq(){filter_notch_freq = slider_notch_freq.value; output_notch_freq.innerHTML = slider_notch_freq.value;}
+function setNotchQ(){filter_notch_Q = slider_notch_Q.value; output_notch_Q.innerHTML = slider_notch_Q.value;}
+function setAllPassFreq(){filter_all_pass_freq = slider_all_pass_freq.value; output_all_pass_freq.innerHTML = slider_all_pass_freq.value;}
+function setAllPassQ(){filter_all_pass_Q = slider_all_pass_Q.value; output_all_pass_Q.innerHTML = slider_all_pass_Q.value;}
